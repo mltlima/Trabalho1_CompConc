@@ -40,7 +40,7 @@ void elimina(int x){
  * 
  * threadN e o numero da thread
  */
-void *trabalho(int threadN)  {  
+void *trabalho(void* threadN)  {  
     int lim,base;
     int trabalho = 0;  // trabalho feito pela thread
     lim = sqrt(N);
@@ -79,7 +79,7 @@ int main(int argc, char *argv[]){
     N = atoi(argv[1]);
     nthreads = atoi(argv[2]);
     
-
+    clock_t tempo1 = clock();
     // marca todos os numeros pares ja que nao sao primos
     // primos 1 ate serem validados
     for (int i = 3; i <= N; i++)  {
@@ -89,11 +89,11 @@ int main(int argc, char *argv[]){
        }
     }
 
-    clock_t tempo1 = clock();
+    
     proxBase = 3;
     // inicia as threads
     for (int i = 0; i < nthreads; i++){
-        pthread_create(&id[i],NULL,trabalho,i);
+        pthread_create(&id[i],NULL,trabalho,NULL);
     }
 
 
@@ -106,7 +106,7 @@ int main(int argc, char *argv[]){
     }
     tempo1 = clock() - tempo1;
     double tempoExecucao1 = (double)(tempo1) / CLOCKS_PER_SEC;
-    printf("\nTempo sequencial: %f\n", tempoExecucao1);
+    printf("\nTempo concorrente: %f\n", tempoExecucao1);
 
 
     // resultados
